@@ -5,12 +5,12 @@
 class Whop2p < Formula
   desc "Private, read-only torrent metadata catalog browser"
   homepage "https://github.com/techmore/WhoPiratesThePirates"
-  version "0.1.6"
+  version "0.1.7"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/techmore/WhoPiratesThePirates/releases/download/v0.1.6/whop2p_0.1.6_darwin_amd64.tar.gz"
-      sha256 "9299600c77f60d408729f82465e36c74cea754fb29775fdd1f87cb9ae0e28403"
+      url "https://github.com/techmore/WhoPiratesThePirates/releases/download/v0.1.7/whop2p_0.1.7_darwin_amd64.tar.gz"
+      sha256 "375ebe19eec454b77ab30c26ac3e6f245a5fc23025a4314dc1103ef5b60432a6"
 
       define_method(:install) do
         bin.install "whop2p"
@@ -18,8 +18,8 @@ class Whop2p < Formula
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/techmore/WhoPiratesThePirates/releases/download/v0.1.6/whop2p_0.1.6_darwin_arm64.tar.gz"
-      sha256 "723f02d663cb355682eaded62fe3eeb5919f8249cfea82b41a3ba0bf729ed7c3"
+      url "https://github.com/techmore/WhoPiratesThePirates/releases/download/v0.1.7/whop2p_0.1.7_darwin_arm64.tar.gz"
+      sha256 "9fc75d496e967c4e437e7a34c8303e65cbc39d72a2f79fd27dcde5965a3551eb"
 
       define_method(:install) do
         bin.install "whop2p"
@@ -30,16 +30,16 @@ class Whop2p < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/techmore/WhoPiratesThePirates/releases/download/v0.1.6/whop2p_0.1.6_linux_amd64.tar.gz"
-      sha256 "c159c74a46e1a04287a1634b4b33abde2ef81943ec8b400e3acbcb6b24d8b416"
+      url "https://github.com/techmore/WhoPiratesThePirates/releases/download/v0.1.7/whop2p_0.1.7_linux_amd64.tar.gz"
+      sha256 "2c5584f3dac9d513066960753c168e8fc11a96a37be202b1f3c70132c0e509a3"
       define_method(:install) do
         bin.install "whop2p"
         bin.install_symlink "whop2p" => "who-pirates-the-pirates"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/techmore/WhoPiratesThePirates/releases/download/v0.1.6/whop2p_0.1.6_linux_arm64.tar.gz"
-      sha256 "cdbd160bb045be29908fd3ff4d4607e867542c35ae3901374be5fc992ae2a57f"
+      url "https://github.com/techmore/WhoPiratesThePirates/releases/download/v0.1.7/whop2p_0.1.7_linux_arm64.tar.gz"
+      sha256 "9d2da8790e2539829e280cc021d33c101c11e4ebdc14012e096c165c17271bb6"
       define_method(:install) do
         bin.install "whop2p"
         bin.install_symlink "whop2p" => "who-pirates-the-pirates"

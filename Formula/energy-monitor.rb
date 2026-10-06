@@ -1,8 +1,8 @@
 class EnergyMonitor < Formula
   desc "Local-first Emporia Vue 3 energy monitor for the macOS menu bar"
   homepage "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor"
-  url "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor/releases/download/v2.2.1/Emporia-Energy-Monitor-2.2.1-macos.zip"
-  sha256 "ecabea68d7abb1eb0e733ff1c37b7583b1bf4f5ffec128be8be2b4997ed8dd15"
+  url "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor/releases/download/v2.3.1/Emporia-Energy-Monitor-2.3.1-macos.zip"
+  sha256 "ed99cd90c1c946a14f1995af34e5795df726d58fdfaa7fecf41c01f10f87a4fa"
   license "MIT"
 
   depends_on arch: :arm64
@@ -10,18 +10,20 @@ class EnergyMonitor < Formula
   depends_on "python@3.12"
 
   resource "arm64-wheels" do
-    url "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor/releases/download/v2.2.1/Emporia-Energy-Monitor-2.2.1-arm64-wheels.tar.gz"
-    sha256 "eb226b72403640ef48b973ede54dc3d984924aee5ab00540209980fc8a4b3a4f"
+    url "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor/releases/download/v2.3.1/Emporia-Energy-Monitor-2.3.1-arm64-wheels.tar.gz"
+    sha256 "ae8305aa4d62f15a1bd07f7ed4b66ae00e141d78f43c6dfc5ed32f34fb1b0bc7"
   end
 
   def install
-    root = buildpath/"Emporia-Energy-Monitor-#{version}"
-    odie "Expected the release source directory at #{root}" unless root.directory?
+    # Homebrew strips a single top-level archive directory, so the sources may already be buildpath.
+    nested = buildpath/"Emporia-Energy-Monitor-#{version}"
+    root = nested.directory? ? nested : buildpath
+    odie "Expected release sources in #{root}" unless (root/"web.py").file?
     root.children.each { |path| libexec.install path }
 
     wheelhouse = libexec/"wheelhouse"
     wheelhouse.mkpath
-    resource("arm64-wheels").stage { |path| wheelhouse.install Dir[path/"*.whl"] }
+    resource("arm64-wheels").stage { wheelhouse.install Dir[Pathname.pwd/"**/*.whl"] }
     python = formula_opt_bin("python@3.12")/"python3.12"
     system python, "-m", "venv", libexec/"venv"
     system libexec/"venv/bin/python3", "-m", "pip", "install", "--no-index",
@@ -31,6 +33,7 @@ class EnergyMonitor < Formula
     executable = bundle/"Contents/MacOS/EnergyMonitorApp"
     resources = bundle/"Contents/Resources"
     resources.mkpath
+    executable.dirname.mkpath
     swift_sources = Dir[(libexec/"EnergyMonitorApp/Sources/*.swift").to_s]
     system "swiftc", "-sdk", Utils.safe_popen_read("xcrun", "--show-sdk-path").strip,
            "-target", "arm64-apple-macosx13.0", "-framework", "AppKit",
@@ -45,7 +48,14 @@ class EnergyMonitor < Formula
 
     (bin/"energy-monitor").write <<~SH
       #!/bin/bash
-      exec open -a "#{opt_prefix}/EnergyMonitorApp.app"
+      APP="#{opt_prefix}/EnergyMonitorApp.app"
+      case "${1:-start}" in
+        start) exec open -a "$APP" ;;
+        autostart|uninstall) cmd="$1"; shift; exec "$APP/Contents/MacOS/EnergyMonitorApp" "--$cmd" "$@" ;;
+        *)
+          echo "usage: energy-monitor [start | autostart on|off|status | uninstall [--purge]]" >&2
+          exit 64 ;;
+      esac
     SH
     (bin/"energy-monitor").chmod 0755
   end
@@ -58,24 +68,27 @@ class EnergyMonitor < Formula
   service do
     run opt_prefix/"EnergyMonitorApp.app/Contents/MacOS/EnergyMonitorApp"
     working_dir var/"energy-monitor"
-    keep_alive true
+    keep_alive false
     log_path var/"log/energy-monitor.log"
     error_log_path var/"log/energy-monitor.log"
   end
 
   def caveats
     <<~EOS
-      Start the menu bar monitor at login:
-        brew services start techmore/tap/energy-monitor
-
-      Or start it once from a terminal:
+      Start the menu bar monitor:
         energy-monitor
+
+      It starts at login automatically after the first run. To change that:
+        energy-monitor autostart off      (or on / status)
+      or use the menu bar icon, then the ... menu, then "Start at Login".
+
+      To uninstall (your data is kept; add --purge to delete it too):
+        energy-monitor uninstall
 
       Local settings, credentials and SQLite history live in:
         #{var}/energy-monitor
 
       The app is compiled from source on this Mac. Xcode Command Line Tools are required.
-      Homebrew uninstall preserves your local data directory.
     EOS
   end
 

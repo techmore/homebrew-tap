@@ -1,8 +1,8 @@
 class EnergyMonitor < Formula
   desc "Local-first Emporia Vue 3 energy monitor for the macOS menu bar"
   homepage "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor"
-  url "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor/releases/download/v2.3.2/Emporia-Energy-Monitor-2.3.2-macos.zip"
-  sha256 "472edf4ae8797a524514928df314052c47dfb734965d597cfc688fd50a776518"
+  url "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor/releases/download/v2.3.3/Emporia-Energy-Monitor-2.3.3-macos.zip"
+  sha256 "9cc82559a5915c15a2fd0b346cdb513adf6a256bb762decf0e0e69576e1aace4"
   license "MIT"
 
   depends_on arch: :arm64
@@ -10,8 +10,8 @@ class EnergyMonitor < Formula
   depends_on "python@3.12"
 
   resource "arm64-wheels" do
-    url "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor/releases/download/v2.3.2/Emporia-Energy-Monitor-2.3.2-arm64-wheels.tar.gz"
-    sha256 "8afcfc335fb5067c7b617aae7da18d3349bbb8c90a3d55e03e1dccd0a5322bed"
+    url "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor/releases/download/v2.3.3/Emporia-Energy-Monitor-2.3.3-arm64-wheels.tar.gz"
+    sha256 "8b79469be86a37a2850204d2f5ede52f76de21fd3beebae271453c72e8ecf5fe"
   end
 
   def install

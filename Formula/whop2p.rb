@@ -56,7 +56,7 @@ class Whop2p < Formula
   service do
     run [opt_bin/"whop2p"]
     keep_alive true
-    working_dir Pathname(ENV["HOME"])
+    working_dir Dir.home
     log_path "~/Library/Logs/whop2p.log"
   end
 

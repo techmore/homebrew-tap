@@ -5,7 +5,6 @@
 class Whop2p < Formula
   desc "Private, read-only torrent metadata catalog browser"
   homepage "https://github.com/techmore/WhoPiratesThePirates"
-  version "0.1.8"
 
   on_macos do
     if Hardware::CPU.intel?

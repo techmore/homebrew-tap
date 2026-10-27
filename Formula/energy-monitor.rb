@@ -5,12 +5,12 @@ class EnergyMonitor < Formula
   sha256 "2d4a201936fedc107b48f89b6c1a999f8b2ae53a195a052b25c67d98610fc936"
   license "MIT"
 
-  # Prebuilt Python wheels lack space for expanded absolute dylib IDs.
-  preserve_rpath
-
   depends_on arch: :arm64
   depends_on macos: :ventura
   depends_on "python@3.12"
+
+  # Prebuilt Python wheels lack space for expanded absolute dylib IDs.
+  preserve_rpath
 
   resource "arm64-wheels" do
     url "https://github.com/techmore/Emporia-Vue3-Mac-Utility-Monitor/releases/download/v2.3.26/Emporia-Energy-Monitor-2.3.26-arm64-wheels.tar.gz"

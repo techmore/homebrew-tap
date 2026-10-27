@@ -5,7 +5,6 @@
 class Whop2p < Formula
   desc "Private, read-only torrent metadata catalog browser"
   homepage "https://github.com/techmore/WhoPiratesThePirates"
-  version "0.1.8"
 
   on_macos do
     if Hardware::CPU.intel?
@@ -56,7 +55,7 @@ class Whop2p < Formula
   service do
     run [opt_bin/"whop2p"]
     keep_alive true
-    working_dir Pathname(ENV["HOME"])
+    working_dir Dir.home
     log_path "~/Library/Logs/whop2p.log"
   end
 

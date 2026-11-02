@@ -1,4 +1,6 @@
 class Nmapui < Formula
+  include Language::Python::Virtualenv
+
   desc "Web UI for Nmap network discovery, service scans and reports"
   homepage "https://techmore.github.io/TM-NMapUI-www/"
   url "https://github.com/techmore/TM-NmapUI/archive/baf8584397edb99fa3367448d87487ca97e602b9.tar.gz"
@@ -188,8 +190,9 @@ class Nmapui < Formula
     resources.each do |r|
       cp r.cached_download, wheelhouse/File.basename(r.url)
     end
-    python = formula_opt_bin("python@3.12")/"python3.12"
-    system python, "-m", "venv", libexec/"venv"
+    # virtualenv_create points the venv at python@3.12's opt path, so the
+    # install survives Python patch upgrades.
+    virtualenv_create(libexec/"venv", "python3.12", system_site_packages: false, without_pip: false)
     pip = [libexec/"venv/bin/python3", "-m", "pip", "install", "--no-index", "--find-links=#{wheelhouse}"]
     system(*pip, "setuptools==80.9.0", "wheel==0.45.1")
     system(*pip, "--no-build-isolation", "--no-deps", "--require-hashes",

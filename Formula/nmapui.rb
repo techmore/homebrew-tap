@@ -3,9 +3,9 @@ class Nmapui < Formula
 
   desc "Web UI for Nmap network discovery, service scans and reports"
   homepage "https://techmore.github.io/TM-NMapUI-www/"
-  url "https://github.com/techmore/TM-NmapUI/archive/baf8584397edb99fa3367448d87487ca97e602b9.tar.gz"
+  url "https://github.com/techmore/TM-NmapUI/archive/bfeb0c3df504edc2c257fbca7e29aaaae90598f7.tar.gz"
   version "2026.11.02"
-  sha256 "b92acbc222e18b28874245ec06007d8d536abc4250265f779dfd86fa944db55d"
+  sha256 "18e98ec01bd2c8a91d91c8d3a467330b8af6faf8585d9eba55a2a9c1768dccd9"
   license "MIT"
 
   depends_on arch: :arm64
@@ -18,6 +18,7 @@ class Nmapui < Formula
   # Prebuilt Python wheels lack space for expanded absolute dylib IDs.
   preserve_rpath
 
+  # BEGIN generated resources (scripts/bump_nmapui.py)
   resource "bidict" do
     url "https://files.pythonhosted.org/packages/97/53/2a3c7d562271ec6b6e38e7216b3104899f8aa4180c0713cb8aaf69e29cd5/bidict-0.24.1-py3-none-any.whl"
     sha256 "fd3eaa737917d8a14f4baa391670c433c4e3f6f5fd2cd99d4bf436437f432364"
@@ -177,6 +178,7 @@ class Nmapui < Formula
     url "https://files.pythonhosted.org/packages/0b/2c/87f3254fd8ffd29e4c02732eee68a83a1d3c346ae39bc6822dcbcb697f2b/wheel-0.45.1-py3-none-any.whl"
     sha256 "708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248"
   end
+  # END generated resources
 
   def install
     odie "Expected NmapUI sources in #{buildpath}" unless (buildpath/"app.py").file?
@@ -208,6 +210,9 @@ class Nmapui < Formula
       NmapUI runs as your user (never as root) on http://127.0.0.1:9000:
         brew services start nmapui
       Data and logs: ~/Library/Application Support/NmapUI-brew (`nmapui paths`).
+
+      On first use macOS asks whether "Python" may find devices on your
+      local network: choose Allow, or scans report 0 hosts.
 
       Scans are unprivileged by default (connect scans, TCP ping discovery).
       For SYN/OS/ARP scans, install the nmap.org macOS package (root-owned

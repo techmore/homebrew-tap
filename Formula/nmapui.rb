@@ -186,7 +186,6 @@ class Nmapui < Formula
     wheelhouse = buildpath/"wheelhouse"
     wheelhouse.mkpath
     resources.each do |r|
-      r.fetch
       cp r.cached_download, wheelhouse/File.basename(r.url)
     end
     python = formula_opt_bin("python@3.12")/"python3.12"

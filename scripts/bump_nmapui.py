@@ -70,7 +70,11 @@ def main():
 
     text = FORMULA.read_text()
     text = re.sub(r'^  url "[^"]+"$', f'  url "{url}"', text, count=1, flags=re.M)
-    text = re.sub(r'^  version "[^"]+"$', f'  version "{args.version}"', text, count=1, flags=re.M)
+    # Homebrew reads the version from a tag URL and flags an explicit one as
+    # redundant; a commit URL needs it.
+    text = re.sub(r'^  version "[^"]+"\n', "", text, count=1, flags=re.M)
+    if "/archive/refs/tags/" not in url:
+        text = re.sub(r'^(  url "[^"]+"\n)', lambda m: m.group(1) + f'  version "{args.version}"\n', text, count=1, flags=re.M)
     text = re.sub(r'^  sha256 "[0-9a-f]{64}"$', f'  sha256 "{sha256}"', text, count=1, flags=re.M)
     start, end = text.index(BEGIN) + len(BEGIN), text.index(END)
     text = text[:start] + resources(lock_text) + text[end:]

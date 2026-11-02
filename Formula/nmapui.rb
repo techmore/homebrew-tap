@@ -192,8 +192,9 @@ class Nmapui < Formula
     end
     # virtualenv_create points the venv at python@3.12's opt path, so the
     # install survives Python patch upgrades.
-    virtualenv_create(libexec/"venv", "python3.12", system_site_packages: false, without_pip: false)
-    pip = [libexec/"venv/bin/python3", "-m", "pip", "install", "--no-index", "--find-links=#{wheelhouse}"]
+    venv = virtualenv_create(libexec/"venv", "python3.12", system_site_packages: false)
+    pip = [formula_opt_bin("python@3.12")/"python3.12", "-m", "pip", "--python", venv.root/"bin/python",
+           "install", "--no-index", "--find-links=#{wheelhouse}"]
     system(*pip, "setuptools==80.9.0", "wheel==0.45.1")
     system(*pip, "--no-build-isolation", "--no-deps", "--require-hashes",
            "-r", libexec/"packaging/homebrew/requirements.lock")

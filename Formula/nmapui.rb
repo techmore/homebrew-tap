@@ -3,8 +3,8 @@ class Nmapui < Formula
 
   desc "Web UI for Nmap network discovery, service scans and reports"
   homepage "https://techmore.github.io/TM-NMapUI-www/"
-  url "https://github.com/techmore/TM-NmapUI/archive/refs/tags/v2026.10.25.tar.gz"
-  sha256 "272a409a0cea76e7bb2ca721fd5c9cb5a2196d6022dd8ba85ed31ece530a77a4"
+  url "https://github.com/techmore/TM-NmapUI/archive/refs/tags/v2026.11.2.tar.gz"
+  sha256 "47a1e6aec5777bbd4a819d196927577cc5be82f630a617b6dd13a3033929c46f"
   license "MIT"
 
   depends_on arch: :arm64

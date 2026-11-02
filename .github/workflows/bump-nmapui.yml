@@ -58,4 +58,7 @@ jobs:
           git switch -c "$branch"
           git commit -am "nmapui $VERSION"
           git push origin "$branch"
-          gh pr create --title "nmapui $VERSION" --body "Automated bump from the TM-NmapUI release. Review, then run \`brew install --build-from-source techmore/tap/nmapui\` and \`brew test nmapui\` on an Apple Silicon Mac before merging."
+          if ! gh pr create --title "nmapui $VERSION" --body "Automated bump from the TM-NmapUI release. Review, then run \`brew install --build-from-source techmore/tap/nmapui\` and \`brew test nmapui\` on an Apple Silicon Mac before merging."; then
+            # Repos can forbid Actions from opening PRs; the branch is pushed either way.
+            echo "::warning::Could not open a PR automatically. Open one from branch $branch: https://github.com/${GITHUB_REPOSITORY}/pull/new/$branch"
+          fi
